@@ -101,9 +101,8 @@ public class Exercicio02Aula01 {
 
             // Exibindo os números únicos do vetorSemRepetidos
             System.out.println("\nNúmeros únicos lidos do arquivo:");
-            for (int i = 0; i < k; i++) {
-                System.out.print(vetorSemRepetidos[i] + " ");
-            }
+            for (int i = 0; i < k; i++) System.out.print(vetorSemRepetidos[i] + "\t");
+
             System.out.println("\n");            
 
         } catch (IOException e) {
