@@ -29,6 +29,7 @@ public class Exercicio02Aula01 {
             System.out.println("Digite o tamanho desejado: ");
             Scanner tamanhoDigitado = new Scanner(System.in);
             int tamanho = tamanhoDigitado.nextInt();
+            tamanhoDigitado.close();
             
             // Gerando N números aleatórios:
             int[] vetorAleatorios = new int[tamanho];
@@ -37,29 +38,44 @@ public class Exercicio02Aula01 {
             }
             
             // Números aleatórios no arquivo
-            BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path, true));  // O "true" adiciona o número no final dele
+            BufferedWriter escrevendoNoArquivo = new BufferedWriter(new FileWriter(path));  // O "true" do path, true permite que
+            //a cada vez que o usuario escreva no arquivo, os valores antigos nao sejam apagados
             for (int i=0; i<vetorAleatorios.length; i++) {
-                buffWrite.write(vetorAleatorios[i] + "\n");  // Escreve cada número em uma nova linha
+                escrevendoNoArquivo.write(vetorAleatorios[i] + "\n");  // Escreve cada número em uma nova linha
             }
             
-            buffWrite.close();  // Fechando o BufferedWriter, PRECISA
+            escrevendoNoArquivo.close();  // Fechando o BufferedWriter, PRECISA
             
             //Precisa abrir o buffRead mais uma vez pra armazenar os valores em um novo vetor: 
             
          // Lendo novamente o arquivo após a escrita
             // Reabrindo o BufferedReader para ler os números recém adicionados
-            buffRead = new BufferedReader(new FileReader(path));
-            System.out.println("Conteúdo do arquivo após a adição:");
+            BufferedReader lendoDoArquivo = new BufferedReader(new FileReader(path));
             int[] vetorLidos = new int[tamanho];
             int j = 0;
             
             //Lógica: Enquanto a linha não for null, vai continuar armazenando o valor no novo vetor
-            while ((linha = buffRead.readLine()) != null && j < tamanho) {
+            while ((linha = lendoDoArquivo.readLine()) != null && j < tamanho) {
                 vetorLidos[j] = Integer.parseInt(linha);  // Armazenando no vetor
                 j++;
             }
             
-            buffRead.close();  
+            lendoDoArquivo.close();  
+            
+            // Verificando se os números lidos são iguais aos gerados
+            boolean verificandoSaoIguais = true;
+            for (int i = 0; i < tamanho; i++) {
+                if (vetorAleatorios[i] != vetorLidos[i]) {
+                    verificandoSaoIguais = false;
+                    break;  // Sai do loop na primeira diferença encontrada
+                }
+            }
+            if (verificandoSaoIguais) {
+            	System.out.println("\nOs vetores sao iguais\n\n");
+            	//Agora vamos mostrar os vetores lidos: 
+            	for (int i=0; i< vetorLidos.length; i++) System.out.println(vetorLidos[i]+"\t");
+            }
+            else System.out.println("Nao sao iguais");
             
             //Para garantia, vamos comparar os valores do novo vetor com o antigo: 
             for (int i=0; i<tamanho; i++) {
