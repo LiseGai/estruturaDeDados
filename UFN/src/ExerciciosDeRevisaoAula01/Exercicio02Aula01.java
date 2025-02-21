@@ -100,7 +100,7 @@ public class Exercicio02Aula01 {
             }
 
             // Exibindo os números únicos do vetorSemRepetidos
-            System.out.println("\nNúmeros únicos lidos do arquivo:");
+            System.out.println("\nVetor com os sem repetiçoes:");
             for (int i = 0; i < k; i++) System.out.print(vetorSemRepetidos[i] + "\t");
 
             System.out.println("\n");            
