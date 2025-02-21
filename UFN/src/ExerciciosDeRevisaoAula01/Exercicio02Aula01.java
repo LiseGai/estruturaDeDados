@@ -46,42 +46,65 @@ public class Exercicio02Aula01 {
             
             escrevendoNoArquivo.close();  // Fechando o BufferedWriter, PRECISA
             
-            //Precisa abrir o buffRead mais uma vez pra armazenar os valores em um novo vetor: 
-            
-         // Lendo novamente o arquivo após a escrita
-            // Reabrindo o BufferedReader para ler os números recém adicionados
+            // Lendo o arquivo e armazenando apenas valores únicos
             BufferedReader lendoDoArquivo = new BufferedReader(new FileReader(path));
             int[] vetorLidos = new int[tamanho];
-            int j = 0;
-            
-            //Lógica: Enquanto a linha não for null, vai continuar armazenando o valor no novo vetor
-            while ((linha = lendoDoArquivo.readLine()) != null && j < tamanho) {
-                vetorLidos[j] = Integer.parseInt(linha);  // Armazenando no vetor
-                j++;
+            int count = 0;
+
+            while ((linha = lendoDoArquivo.readLine()) != null && count < tamanho) {
+                vetorLidos[count] = Integer.parseInt(linha);
+                count++;
             }
-            
-            lendoDoArquivo.close();  
-            
-            // Verificando se os números lidos são iguais aos gerados
+            lendoDoArquivo.close();
+
+            // Comparando vetorAleatorios e vetorLidos se sao iguais no valor armazenado no 
+            //arquivo e no valor lido do arquivo
             boolean verificandoSaoIguais = true;
             for (int i = 0; i < tamanho; i++) {
                 if (vetorAleatorios[i] != vetorLidos[i]) {
-                    verificandoSaoIguais = false;
-                    break;  // Sai do loop na primeira diferença encontrada
+                	verificandoSaoIguais = false;
+                    break; // Sai do loop na primeira diferença encontrada
                 }
             }
+            
+            //Validaçao para o usuario se sao iguais
             if (verificandoSaoIguais) {
             	System.out.println("\nOs vetores sao iguais\n\n");
             	//Agora vamos mostrar os vetores lidos: 
             	for (int i=0; i< vetorLidos.length; i++) System.out.println(vetorLidos[i]+"\t");
             }
             else System.out.println("Nao sao iguais");
-            
-            //Para garantia, vamos comparar os valores do novo vetor com o antigo: 
-            for (int i=0; i<tamanho; i++) {
-            	System.out.println(vetorAleatorios[i]+"\t");
-            	System.out.println(vetorLidos[i]+"\t");
+
+            // Criando vetorSemRepetidos a partir de vetorLidos
+            int[] vetorSemRepetidos = new int[tamanho];
+            int k = 0; //Como pode ser que tenham elementos repetidos, criei um novo indice
+            //pra garantir que o novo vetor apenas com os elementos unicos nao de problema no
+            //compilador
+
+            for (int i = 0; i < count; i++) {
+                boolean repetido = false;
+
+                // Verifica se o número já está em vetorSemRepetidos
+                for (int j = 0; j < k; j++) {
+                    if (vetorLidos[i] == vetorSemRepetidos[j]) {
+                        repetido = true;
+                        break;
+                    }
+                }
+
+                // Se não for repetido, adiciona ao vetorSemRepetidos e aumenta o tamanho dele
+                if (!repetido) {
+                    vetorSemRepetidos[k] = vetorLidos[i];
+                    k++;
+                }
             }
+
+            // Exibindo os números únicos do vetorSemRepetidos
+            System.out.println("\nNúmeros únicos lidos do arquivo:");
+            for (int i = 0; i < k; i++) {
+                System.out.print(vetorSemRepetidos[i] + " ");
+            }
+            System.out.println("\n");            
 
         } catch (IOException e) {
             // Captura de exceções se ocorrer algum erro na leitura ou escrita do arquivo
@@ -89,4 +112,3 @@ public class Exercicio02Aula01 {
         }
     }
 }
-
